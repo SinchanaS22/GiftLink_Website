@@ -1,6 +1,6 @@
-require('dotenv').config();
-const MongoClient = require('mongodb').MongoClient;
-const fs = require('fs');
+import 'dotenv/config';
+import { MongoClient } from 'mongodb';
+import { readFileSync } from 'fs';
 
 // MongoDB connection URL with authentication options
 let url = `${process.env.MONGO_URL}`;
@@ -9,7 +9,7 @@ const dbName = 'giftdb';
 const collectionName = 'gifts';
 
 // notice you have to load the array of gifts into the data object
-const data = JSON.parse(fs.readFileSync(filename, 'utf8')).docs;
+const data = JSON.parse(readFileSync(filename, 'utf8')).docs;
 
 // connect to database and insert data into the collection
 async function loadData() {
@@ -45,6 +45,6 @@ async function loadData() {
 
 loadData();
 
-module.exports = {
+export default {
     loadData,
   };

@@ -1,12 +1,13 @@
 // db.js
-require('dotenv').config();
-const MongoClient = require('mongodb').MongoClient;
+import 'dotenv/config';
+import { MongoClient } from 'mongodb';
 
 // MongoDB connection URL with authentication options
 let url = `${process.env.MONGO_URL}`;
 
-let dbInstance = null;
 const dbName = "giftdb";
+let dbInstance = null;
+
 
 async function connectToDatabase() {
     if (dbInstance){
@@ -28,4 +29,4 @@ async function connectToDatabase() {
     // {{insert code}}
 }
 
-module.exports = connectToDatabase;
+export default connectToDatabase;

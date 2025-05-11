@@ -1,10 +1,12 @@
-const connectToDatabase = require("../models/db");
+import connectToDatabase from "../models/db.js";
+import { Router } from 'express';
+const router = Router();
 
 router.get('/', async (req, res) => {
     try {
         // Task 1: Connect to MongoDB and store connection to db constant
          const db = await connectToDatabase();
-
+         
         // Task 2: use the collection() method to retrieve the gift collection
         const collection=db.collection("gifts");
         // {{insert code here}}
@@ -23,7 +25,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         // Task 1: Connect to MongoDB and store connection to db constant
-         const db = connectToDatabase();
+         const db = await connectToDatabase();
 
         // Task 2: use the collection() method to retrieve the gift collection
         const collection=db.collection("gifts");
@@ -59,4 +61,4 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;
