@@ -2,11 +2,11 @@
 import 'dotenv/config';
 import express, { json } from 'express';
 import cors from 'cors';
-//import { info } from './logger.js';
 import authRoutes from './routes/authRoute.js';
 import connectToDatabase from './models/db.js';
-// import { loadData } from "./util/import-mongo/index.js";
-
+//import { loadData } from "./util/import-mongo/index.js";
+import logger from './logger.js';
+import pinoHttp from 'pino-http';
 
 const app = express();
 app.use("*",cors());
@@ -14,7 +14,7 @@ const port = 3060;
 
 // Connect to MongoDB; we just do this one time
 connectToDatabase().then(() => {
-    info('Connected to DB');
+    logger.info('Connected to DB');
 })
     .catch((e) => console.error('Failed to connect to DB', e));
 
@@ -27,10 +27,6 @@ import giftRoutes from './routes/giftRoutes.js';
 
 // Search API Task 1: import the searchRoutes and store in a constant called searchRoutes
 import searchRoutes from './routes/searchRoutes.js';
-
-
-import pinoHttp from 'pino-http';
-import logger from './logger.js';
 
 app.use(pinoHttp({ logger }));
 
