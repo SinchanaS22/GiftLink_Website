@@ -39,11 +39,13 @@ app.use('/api/search',searchRoutes);
 
 app.use('/api/auth', authRoutes);
 // Global Error Handler
-// Corrected: Renamed 'next' to '_next' to signal it's an intentionally unused parameter for linters.
-app.use((err, req, res, _next) => {
+// JSHint: -W098 suppresses the "defined but never used" warning for the 'next' parameter.
+/* jshint -W098 */
+app.use((err, req, res, next) => { // Reverted 'next' back, but the directive handles the warning
     console.error(err);
     res.status(500).send('Internal Server Error');
 });
+/* jshint +W098 */ // Re-enable the warning if you have more code below this handler
 
 app.get("/",(req,res)=>{
     res.send("Inside the server");
