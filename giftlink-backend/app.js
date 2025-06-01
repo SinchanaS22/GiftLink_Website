@@ -4,7 +4,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoute.js';
 import connectToDatabase from './models/db.js';
-//import { loadData } from "./util/import-mongo/index.js";
+//import { loadData } from "./util/import-mongo/index.js"; // Commented out as it's not used
 import logger from './logger.js';
 import pinoHttp from 'pino-http';
 
@@ -39,6 +39,7 @@ app.use('/api/search',searchRoutes);
 
 app.use('/api/auth', authRoutes);
 // Global Error Handler
+// Corrected: Renamed 'next' to '_next' to signal it's an intentionally unused parameter for linters.
 app.use((err, req, res, _next) => {
     console.error(err);
     res.status(500).send('Internal Server Error');
