@@ -8,46 +8,66 @@ on:
 
 jobs:
   lint_js:
-      name: Lint JavaScript Files
-      runs-on: ubuntu-latest
+    name: Lint JavaScript Files
+    runs-on: ubuntu-latest
 
-      steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Using Node.js 20 (LTS) as previously discussed
 
-      - name: Install JSHint
-        run: npm install jshint --global
+    - name: Install JSHint
+      run: npm install jshint --global
 
-      - name: Run Linter
-        run: |
-          # This command finds all JavaScript files recursively and runs JSHint on them
-          find ./giftlink-backend -name app.js -exec jshint {} +
-          find ./giftlink-backend -name auth.js -exec jshint {} +
-          find ./giftlink-backend -name giftRoutes.js -exec jshint {} +
-          find ./giftlink-backend -name searchRoutes.js -exec jshint {} +
-          echo "Linted all the js files successfully"
+    - name: Create .jshintrc for ES8/ES6 support
+      run: |
+        echo '{
+          "esversion": 8,
+          "browser": true,
+          "node": true,
+          "undef": true,
+          "unused": true,
+          "strict": false,
+          "globals": {
+            "process": true,
+            "__dirname": true,
+            "__filename": true
+          }
+        }' > .jshintrc
+      # Ensure this .jshintrc is created in the root of the repository
+      # or in the directory where JSHint is executed against the files.
+      # For this setup, it's assumed the find command is run from the root.
+
+    - name: Run Linter
+      run: |
+        # This command finds all JavaScript files recursively and runs JSHint on them
+        # JSHint will now pick up the .jshintrc file
+        find ./giftlink-backend -name app.js -exec jshint {} +
+        find ./giftlink-backend -name auth.js -exec jshint {} +
+        find ./giftlink-backend -name giftRoutes.js -exec jshint {} +
+        find ./giftlink-backend -name searchRoutes.js -exec jshint {} +
+        echo "Linted all the js files successfully"
 
   client_build:
-      name: Build client
-      runs-on: ubuntu-latest
+    name: Build client
+    runs-on: ubuntu-latest
 
-      steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # Using Node.js 20 (LTS) as previously discussed
 
-      - name: Run build
-        run: |
-          cd giftlink-frontend
-          npm install
-          npm run build
-          echo "Client-side build successfully"
+    - name: Run build
+      run: |
+        cd giftlink-frontend
+        npm install
+        npm run build
+        echo "Client-side build successfully"
