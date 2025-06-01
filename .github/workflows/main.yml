@@ -18,7 +18,7 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Using Node.js 20 (LTS) as previously discussed
+        node-version: '20'  # Using Node.js 20 (LTS)
 
     - name: Install JSHint
       run: npm install jshint --global
@@ -63,10 +63,12 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'  # Using Node.js 20 (LTS) as previously discussed
+        node-version: '20'  # Using Node.js 20 (LTS)
 
     - name: Run build
+      # Set NODE_OPTIONS environment variable to allow legacy OpenSSL provider
       run: |
+        export NODE_OPTIONS=--openssl-legacy-provider
         cd giftlink-frontend
         npm install
         npm run build
