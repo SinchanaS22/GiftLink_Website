@@ -65,12 +65,19 @@ jobs:
       with:
         node-version: '20'  # Using Node.js 20 (LTS)
 
-    - name: Run build
+    - name: Install Frontend Dependencies
+      # Use npm ci for clean and consistent installs in CI environments
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider # Ensure this is applied during install too
+      run: |
+        cd giftlink-frontend
+        npm ci # Changed from npm install
+
+    - name: Run Frontend Build
       # Set NODE_OPTIONS environment variable to allow legacy OpenSSL provider
       env: # Set environment variables for this step
         NODE_OPTIONS: --openssl-legacy-provider
       run: |
         cd giftlink-frontend
-        npm install
         npm run build
         echo "Client-side build successfully"
