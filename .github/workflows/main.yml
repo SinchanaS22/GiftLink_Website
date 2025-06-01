@@ -67,8 +67,9 @@ jobs:
 
     - name: Run build
       # Set NODE_OPTIONS environment variable to allow legacy OpenSSL provider
+      env: # Set environment variables for this step
+        NODE_OPTIONS: --openssl-legacy-provider
       run: |
-        export NODE_OPTIONS=--openssl-legacy-provider
         cd giftlink-frontend
         npm install
         npm run build
